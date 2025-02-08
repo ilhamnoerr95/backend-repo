@@ -1,0 +1,36 @@
+{
+	"dependencies": {
+		"chalk": "4.1.2",
+		"dotenv": "^16.4.7",
+		"express": "^4.21.2",
+		"firebase-admin": "^13.1.0",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.20.0",
+		"@types/express": "^5.0.0",
+		"@types/morgan": "^1.9.9",
+		"@types/node": "^22.13.1",
+		"@typescript-eslint/eslint-plugin": "^8.23.0",
+		"@typescript-eslint/parser": "^8.23.0",
+		"eslint": "^9.20.0",
+		"globals": "^15.14.0",
+		"nodemon": "^3.1.9",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.7.3",
+		"typescript-eslint": "^8.23.0"
+	},
+	"name": "backend-repo",
+	"version": "1.0.0",
+	"description": "goes to singapore",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "npx tsc --watch && node dist/app.js",
+		"dev": "rm -rf dist && nodemon --exec ts-node core/app.ts "
+	},
+	"keywords": [
+		"backend-repo"
+	],
+	"author": "ilhamnrachman",
+	"license": "ISC"
+}
