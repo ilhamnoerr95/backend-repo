@@ -12,17 +12,8 @@
 		"allowSyntheticDefaultImports": true,
 		"allowImportingTsExtensions": false,
 		"noEmit": false,
-		"forceConsistentCasingInFileNames": true,
-		"paths": {
-			"Core/*": ["./core/*"],
-			"Controllers/*": ["./controllers/*"],
-			"Config/*": ["./config/*"],
-			"Middleware/*": ["./middleware/*"],
-			"Routes/*": ["./routes/*"],
-			"Repository/*": ["./repository/*"],
-			"Entity/*": ["./entities/*"]
-		}
+		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["./**/*"],
+	"include": ["**/*.ts", "**/*.json"],
 	"exclude": ["node_modules"]
 }

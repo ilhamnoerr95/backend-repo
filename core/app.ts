@@ -6,7 +6,7 @@ import morgan from "morgan";
 import userRouter from "../routes/userRoutes";
 
 // middlewarea
-import { notFound } from "../middleware/index";
+import { notFound, errorHandler } from "../middleware/index";
 
 const app = express();
 
@@ -21,6 +21,7 @@ app.use("/v1/api", userRouter);
 
 // middleware
 app.use(notFound);
+app.use(errorHandler);
 
 const start = async () => {
 	try {

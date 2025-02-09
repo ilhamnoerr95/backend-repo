@@ -2,7 +2,7 @@ import express from "express";
 import { UserController } from "../controllers/index";
 
 // middleware auth
-import { authMiddleware } from "../middleware/authMiddleware";
+import { authMiddleware } from "../middleware/index";
 
 const router = express.Router();
 

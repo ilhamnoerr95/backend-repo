@@ -3,20 +3,21 @@ import Admin, { dbfs } from "../config/firebaseConfig";
 
 import { IRequest, IDecoded } from "../entities/user";
 
+// utils
+import { customApiError } from "../utils/customError";
+
 export const authMiddleware = async (
 	req: IRequest,
 	res: Response,
 	next: NextFunction
-): Promise<void> => {
+): Promise<any> => {
 	const Auth = req.headers.authorization;
 
-	if (!Auth || !Auth.startsWith("Bearer "))
-		res.status(401).json({
-			error: { status: 401, message: "Unauthorized: token not provided " },
-		});
+	if (!Auth)
+		return next(customApiError("Unauthorized: token not provided", 401));
 
 	const token = Auth?.split(" ")[1] || Auth;
-	console.log(token);
+	console.log("tokenn", token);
 	try {
 		// decode token that from id Token
 		const decodedToken: IDecoded = await Admin.auth().verifyIdToken(
@@ -38,8 +39,6 @@ export const authMiddleware = async (
 		next();
 	} catch (error) {
 		console.error(error);
-		res
-			.status(500)
-			.json({ error: { status: 500, message: "Something went wrong" } });
+		next();
 	}
 };

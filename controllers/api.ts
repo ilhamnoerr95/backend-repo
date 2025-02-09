@@ -1,9 +1,12 @@
 import { dbfs } from "../config/firebaseConfig";
 import { UserCollections } from "../repository/index";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 // type
 import { IUsers, IRequest } from "../entities/user";
+
+// utils
+import { customApiError } from "../utils/customError";
 
 export class UserController {
 	// for generate token custom
@@ -26,16 +29,18 @@ export class UserController {
 		}
 	}
 
-	static async fetchUserData(req: IRequest, res: Response): Promise<void> {
+	static async fetchUserData(
+		req: IRequest,
+		res: Response,
+		next: NextFunction
+	): Promise<void> {
 		try {
 			const snapshot = await UserCollections.fetchUserData();
 
-			if (snapshot.empty)
-				res
-					.status(404)
-					.json({ error: { status: 404, message: "Data is empty" } });
+			if (snapshot.empty) next(customApiError("Data is empty", 404));
 
 			const data: IUsers[] = [];
+
 			snapshot.forEach((doc: any) => {
 				data.push({ id: doc.id, ...doc.data() });
 			});
@@ -43,30 +48,29 @@ export class UserController {
 			res.status(200).json({ status: 200, data });
 		} catch (error) {
 			console.error(error);
-			res
-				.status(500)
-				.json({ error: { status: 500, message: "Something went wrong" } });
+			next();
 		}
 	}
 
-	static async updateUserData(req: IRequest, res: Response) {
+	static async updateUserData(
+		req: IRequest,
+		res: Response,
+		next: NextFunction
+	) {
 		try {
 			const { id } = req.params;
 			const checkId = await dbfs.collection("users").doc(id).get();
 
 			// check id first
-			if (!checkId.exists)
-				res
-					.status(404)
-					.json({ error: { status: 404, message: "user does not exist" } });
+			if (!checkId.exists) next(customApiError("User does not exist", 404));
 
 			const { username, email } = req.body;
 
+			// check username and email
 			if (!username || !email)
-				res
-					.status(400)
-					.json({ error: { status: 400, message: "Missing required fields" } });
+				next(customApiError("Missing required fields", 400));
 
+			// update data
 			await UserCollections.updateUserData(id, {
 				username,
 				email,
@@ -75,9 +79,7 @@ export class UserController {
 			res.status(200).json({ status: 200, message: id });
 		} catch (error) {
 			console.error("error", error);
-			res
-				.status(500)
-				.json({ error: { status: 500, message: "Something went wrong" } });
+			next();
 		}
 	}
 }
