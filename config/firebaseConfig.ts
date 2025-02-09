@@ -1,8 +1,13 @@
 import { initializeApp } from "firebase-admin/app";
-import * as admin from "firebase-admin";
+import admin from "firebase-admin";
+import chalk from "chalk";
 
 const serviceAccount = require("./serviceAccount.json");
 
 initializeApp({
-	credential: admin.credential.cert(JSON.parse(serviceAccount)),
+	credential: admin.credential.cert(serviceAccount),
 });
+
+console.info(chalk.bgCyan("Firestore connected!"));
+export const dbfs = admin.firestore();
+export default admin;
