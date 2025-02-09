@@ -17,7 +17,7 @@ export const authMiddleware = async (
 		return next(customApiError("Unauthorized: token not provided", 401));
 
 	const token = Auth?.split(" ")[1] || Auth;
-	console.log("tokenn", token);
+
 	try {
 		// decode token that from id Token
 		const decodedToken: IDecoded = await Admin.auth().verifyIdToken(
