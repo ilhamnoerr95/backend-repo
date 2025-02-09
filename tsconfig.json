@@ -1,24 +1,26 @@
 {
 	"compilerOptions": {
-		// Compiler options go here
-		"target": "es6", // Target JavaScript version
-		"module": "commonjs", // Use CommonJS module format
+		"target": "ES6",
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"baseUrl": "./",
+		"rootDir": "./",
 		"outDir": "./dist",
-		// "rootDir": "./*",
 		"strict": true,
-		"baseUrl": ".",
 		"resolveJsonModule": true,
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
+		"allowImportingTsExtensions": true,
+		"noEmit": true,
+		"forceConsistentCasingInFileNames": true,
 		"paths": {
-			"@Core/*": ["core/*"],
-			"@Controllers/*": ["controllers/*"],
-			"@Config/*": ["config/*"],
-			"@Middleware/*": ["middleware/*"],
-			"@Routes/*": ["routes/*"],
-			"@Repository/*": ["repository/*"],
-			"@Entity/*": ["entities/*"],
-			"@/*": ["./*"]
+			"Core/*": ["./core/*"],
+			"Controllers/*": ["./controllers/*"],
+			"Config/*": ["./config/*"],
+			"Middleware/*": ["./middleware/*"],
+			"Routes/*": ["./routes/*"],
+			"Repository/*": ["./repository/*"],
+			"Entity/*": ["./entities/*"]
 		}
 	},
 	"include": ["./**/*"],

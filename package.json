@@ -23,10 +23,12 @@
 	"name": "backend-repo",
 	"version": "1.0.0",
 	"description": "goes to singapore",
+	"main": "core/app.ts",
 	"scripts": {
+		"test-file": "ts-node --files core/app.ts",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "npx tsc --watch && node dist/app.js",
-		"dev": "rm -rf dist && nodemon --exec ts-node core/app.ts "
+		"dev": "nodemon --exec ts-node core/app.ts "
 	},
 	"keywords": [
 		"backend-repo"
