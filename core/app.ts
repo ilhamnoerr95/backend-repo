@@ -3,10 +3,10 @@ import "dotenv/config";
 import chalk from "chalk";
 import morgan from "morgan";
 // router
-import userRouter from "../routes/userRoutes.ts";
+import userRouter from "../routes/userRoutes";
 
 // middlewarea
-import { notFound } from "../middleware/index.ts";
+import { notFound } from "../middleware/index";
 
 const app = express();
 

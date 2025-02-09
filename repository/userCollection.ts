@@ -1,11 +1,11 @@
-import Admin, { dbfs } from "../config/firebaseConfig.ts";
+import Admin, { dbfs } from "../config/firebaseConfig";
 
-// import { IUsers } from "../entities/user.ts";
+import { IUsers } from "../entities/user";
 
-// const db = Admin.database();
+// const auth = getAuth();
 
 export class UserCollections {
-	static async generateToken(uid: string): Promise<string> {
+	static async generateTokenCustom(uid: string): Promise<string> {
 		try {
 			const token = await Admin.auth().createCustomToken(uid);
 			return token;
@@ -18,6 +18,15 @@ export class UserCollections {
 	static async fetchUserData() {
 		try {
 			return await dbfs.collection("users").get();
+		} catch (error) {
+			console.error(error);
+			throw new Error("internal server error");
+		}
+	}
+
+	static async updateUserData(uid: string, body: Partial<IUsers>) {
+		try {
+			return await dbfs.collection("users").doc(uid).update(body);
 		} catch (error) {
 			console.error(error);
 			throw new Error("internal server error");

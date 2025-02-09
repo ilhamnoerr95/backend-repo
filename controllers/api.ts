@@ -1,13 +1,13 @@
-import { dbfs } from "../config/firebaseConfig.ts";
-import { UserCollections } from "../repository/index.ts";
+import { dbfs } from "../config/firebaseConfig";
+import { UserCollections } from "../repository/index";
 import { Request, Response } from "express";
 
 // type
-import { IUsers } from "../entities/user.ts";
+import { IUsers, IRequest } from "../entities/user";
 
 export class UserController {
-	// for generate token
-	static async generateToken(req: Request, res: Response): Promise<void> {
+	// for generate token custom
+	static async generateTokenCustom(req: Request, res: Response): Promise<void> {
 		try {
 			const { id } = req.params;
 			const checkId = await dbfs.collection("users").doc(id).get();
@@ -16,7 +16,8 @@ export class UserController {
 				res
 					.status(404)
 					.json({ error: { status: 404, message: "user does not exist" } });
-			const token = await UserCollections.generateToken(id);
+
+			const token = await UserCollections.generateTokenCustom(id);
 
 			res.status(200).json({ status: 200, data: { token } });
 		} catch (error) {
@@ -25,9 +26,8 @@ export class UserController {
 		}
 	}
 
-	static async fetchUserData(req: Request, res: Response): Promise<void> {
+	static async fetchUserData(req: IRequest, res: Response): Promise<void> {
 		try {
-			// console.log(await UserCollections.fetchUserData());
 			const snapshot = await UserCollections.fetchUserData();
 
 			if (snapshot.empty)
@@ -37,7 +37,6 @@ export class UserController {
 
 			const data: IUsers[] = [];
 			snapshot.forEach((doc: any) => {
-				console.log(doc.id, doc.data());
 				data.push({ id: doc.id, ...doc.data() });
 			});
 
@@ -45,8 +44,40 @@ export class UserController {
 		} catch (error) {
 			console.error(error);
 			res
-				.status(404)
-				.json({ error: { status: 404, message: "Something went wrong" } });
+				.status(500)
+				.json({ error: { status: 500, message: "Something went wrong" } });
+		}
+	}
+
+	static async updateUserData(req: IRequest, res: Response) {
+		try {
+			const { id } = req.params;
+			const checkId = await dbfs.collection("users").doc(id).get();
+
+			// check id first
+			if (!checkId.exists)
+				res
+					.status(404)
+					.json({ error: { status: 404, message: "user does not exist" } });
+
+			const { username, email } = req.body;
+
+			if (!username || !email)
+				res
+					.status(400)
+					.json({ error: { status: 400, message: "Missing required fields" } });
+
+			await UserCollections.updateUserData(id, {
+				username,
+				email,
+			});
+
+			res.status(200).json({ status: 200, message: id });
+		} catch (error) {
+			console.error("error", error);
+			res
+				.status(500)
+				.json({ error: { status: 500, message: "Something went wrong" } });
 		}
 	}
 }

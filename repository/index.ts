@@ -1,1 +1,1 @@
-export * from "./userCollection.ts";
+export * from "./userCollection";
