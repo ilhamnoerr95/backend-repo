@@ -21,6 +21,7 @@ app.use("/v1/api", userRouter);
 
 // middleware
 app.use(notFound);
+
 const start = async () => {
 	try {
 		app.listen(PORT, () =>

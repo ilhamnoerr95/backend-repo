@@ -10,4 +10,5 @@ initializeApp({
 
 console.info(chalk.bgCyan("Firestore connected!"));
 export const dbfs = admin.firestore();
+// admin.
 export default admin;
