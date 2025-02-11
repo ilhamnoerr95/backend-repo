@@ -32,7 +32,8 @@
 		"copy-files": "copyfiles -u 1 config/**/*.json dist",
 		"build": "yarn cleanup && tsc && yarn copy-files",
 		"server:start": "yarn build && node dist/core/app.js",
-		"server:dev": "nodemon --exec ts-node core/app.ts "
+		"server:dev": "nodemon --exec ts-node core/app.ts ",
+		"firebase:local": "firebase emulators:start --only functions"
 	},
 	"keywords": [
 		"backend-repo"
